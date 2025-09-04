@@ -10,7 +10,7 @@ import os
 # Konfigurasi halaman
 st.set_page_config(
     page_title="DCR-PAXLIST Automation",
-    page_icon="🦁",
+    page_icon="✈️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -109,9 +109,9 @@ def group_booking_codes(paxlist_df):
     paxlist_clean["Crew ID"] = pd.to_numeric(paxlist_clean["Crew ID"], errors="coerce")
     paxlist_clean = paxlist_clean.dropna(subset=["Crew ID"])
     
-    # Kelompokkan booking codes
+    # Kelompokkan booking codes TANPA unique() agar duplikasi tetap ada
     grouped = paxlist_clean.groupby("Crew ID")["Booking Code"].apply(
-        lambda x: ", ".join(x.astype(str).unique())
+        lambda x: ", ".join(x.astype(str))
     ).reset_index()
     
     return grouped
@@ -381,4 +381,5 @@ st.markdown("""
     <p>DCR-PAXLIST Automation Tool | Dibuat dengan menggunakan Streamlit</p>
     <p><small>© Maurino Audrian Putra</small></p>
 </div>
+
 """, unsafe_allow_html=True)
